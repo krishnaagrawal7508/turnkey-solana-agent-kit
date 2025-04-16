@@ -95,16 +95,18 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="bg-[var(--background)] min-h-screen">
+    <div className="bg-[radial-gradient(circle,#242A37,#29313F,#2C3644,#3D4854)] min-h-screen flex flex-col">
       <Navbar />
-      <AIChat
-        selectedAccount={selectedAccount}
-        signer={signer}
-      />
+      <div className="flex-1 flex flex-col">
+        <AIChat
+          selectedAccount={selectedAccount}
+          signer={signer}
+        />
+      </div>
       <Toaster
         position="bottom-right"
         toastOptions={{ 
-          className: "bg-[var(--card-bg)] text-white border border-gray-700 shadow-lg", 
+          className: "bg-[rgba(42,43,54,0.8)] text-white border border-[rgba(255,255,255,0.1)] shadow-lg", 
           duration: 2500 
         }}
       />

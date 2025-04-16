@@ -87,7 +87,7 @@ export default function AuthPage() {
       <div className="bg-[var(--background)] min-h-screen">
         <Navbar />
         <div className="pt-20 flex justify-center items-center flex-1">
-          <div className="bg-[var(--card-bg)] p-8 rounded-xl shadow-xl">
+          <div className="bg-[var(--card-bg)] p-8 rounded-2xl shadow-xl">
             <h1 className="text-white text-2xl font-bold mb-6 text-center">Welcome to Sense AI</h1>
             <Auth
               authConfig={authConfig}
