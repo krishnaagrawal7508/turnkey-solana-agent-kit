@@ -6,6 +6,8 @@ import { Auth, useTurnkey, TurnkeyProvider } from "@turnkey/sdk-react";
 import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar";
 import { Toaster, toast } from "sonner";
+import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 interface SocialConfig {
   enabled: boolean;
@@ -84,24 +86,38 @@ export default function AuthPage() {
       apiBaseUrl: process.env.NEXT_PUBLIC_BASE_URL as string,
       defaultOrganizationId: process.env.NEXT_PUBLIC_ORGANIZATION_ID as string,
     }}>
-      <div className="bg-[var(--background)] min-h-screen">
+      <div className="bg-[radial-gradient(circle,#242A37,#29313F,#2C3644,#3D4854)] min-h-screen flex flex-col">
         <Navbar />
-        <div className="pt-20 flex justify-center items-center flex-1">
-          <div className="bg-[var(--card-bg)] p-8 rounded-2xl shadow-xl">
-            <h1 className="text-white text-2xl font-bold mb-6 text-center">Welcome to Sense AI</h1>
+        <div className="flex-1 flex justify-center items-center">
+          <div className="max-w-md w-full bg-[#20242D] rounded-xl border border-[rgba(255,255,255,0.1)] shadow-lg overflow-hidden p-6 m-4">
+            <div className="mb-6 bg-[rgba(255,255,255,0.05)] rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-6 h-6 relative">
+                <Icon 
+                  icon="solar:key-minimalistic-square-3-bold-duotone"
+                  width="24" 
+                  height="24"
+                  className="text-[#282c3a] bg-[#fff] rounded-md"
+                />
+                </div>
+                <div className="text-white font-medium text-lg">Turnkey Authentication</div>
+              </div>
+              <p className="text-gray-400 text-xs mb-2">Sign in to use your Solana wallet using Turnkey</p>
+            </div>
+
             <Auth
               authConfig={authConfig}
               configOrder={configOrder}
               onAuthSuccess={handleAuthSuccess}
               onError={(errorMessage: string) => toast.error(errorMessage)}
-              customSmsMessage={"Your Sense AI Demo OTP is {{.OtpCode}}"}
+              customSmsMessage={"Your Turnkey AI Demo OTP is {{.OtpCode}}"}
             />
           </div>
         </div>
         <Toaster
           position="bottom-right"
           toastOptions={{ 
-            className: "bg-[var(--card-bg)] text-white border border-gray-700 shadow-lg", 
+            className: "bg-[rgba(42,43,54,0.8)] text-white border border-[rgba(255,255,255,0.1)] shadow-lg", 
             duration: 2500 
           }}
         />

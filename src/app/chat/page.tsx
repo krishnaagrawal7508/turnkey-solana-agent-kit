@@ -84,7 +84,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="h-screen w-screen flex justify-center items-center bg-[var(--background)]">
-        <Navbar />
+        <Navbar selectedAccount={selectedAccount} />
         <CircularProgress
           size={60}
           thickness={4}
@@ -96,7 +96,7 @@ export default function Dashboard() {
 
   return (
     <div className="bg-[radial-gradient(circle,#242A37,#29313F,#2C3644,#3D4854)] min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar selectedAccount={selectedAccount} />
       <div className="flex-1 flex flex-col">
         <AIChat
           selectedAccount={selectedAccount}

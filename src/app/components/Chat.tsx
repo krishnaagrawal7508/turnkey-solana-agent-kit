@@ -27,9 +27,7 @@ type AIChatProps = {
 };
 
 export const AIChat: React.FC<AIChatProps> = ({ selectedAccount, signer }) => {
-  const [messages, setMessages] = useState<CoreMessage[]>([
-    { role: "assistant", content: "Hi! How can I help you today?" },
-  ]);
+  const [messages, setMessages] = useState<CoreMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [godMode, setGodMode] = useState(false);
@@ -246,106 +244,123 @@ export const AIChat: React.FC<AIChatProps> = ({ selectedAccount, signer }) => {
     <div className="w-full max-w-4xl flex flex-col h-[calc(100vh-24px)] mt-12 mx-auto px-4">
       <div className="flex-1 flex flex-col overflow-hidden rounded-2xl p-6 backdrop-blur-sm">
         <div className="flex-1 overflow-y-auto px-2 py-4 space-y-6">
-          {messages.map((m, i) => (
-            <div key={i} className="flex items-start justify-start">
-              <div className="flex-shrink-0 mr-3">
-                <div
-                  className={`${m.role === "user" ? "bg-white rounded-2xl" : "bg-[#2658DD] rounded-lg"} p-1 flex items-center justify-center w-8 h-8`}
-                >
-                  {m.role === "user" ? (
-                    <Icon
-                      icon="solar:key-bold"
-                      width="20"
-                      height="20"
-                      className="text-[#282c3a]"
-                    />
-                  ) : (
-                    <img
-                      src="/icons/user-icon.png"
-                      alt="User"
-                      className="object-contain w-6 h-6"
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-col items-start">
-                <div className="flex items-center mb-1">
-                  <span className="text-xs text-gray-400 mr-2">
-                    {m.role === "user" ? "You" : "Turnkey AI"}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {getCurrentTime()}
-                  </span>
-                </div>
-
-                <div
-                  className={
-                    m.role === "user" ? "chat-message-user" : "chat-message-ai"
-                  }
-                >
-                  {typeof m.content === "string" ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: marked(m.content) }}
-                      className="prose prose-sm max-w-none"
-                    />
-                  ) : Array.isArray(m.content) ? (
-                    m.content.map((part, idx) => {
-                      if (typeof part === "string") {
-                        return (
-                          <div
-                            key={idx}
-                            dangerouslySetInnerHTML={{ __html: marked(part) }}
-                            className="prose prose-sm max-w-none"
-                          />
-                        );
-                      }
-                      if ("text" in part && typeof part.text === "string") {
-                        return (
-                          <div
-                            key={idx}
-                            dangerouslySetInnerHTML={{
-                              __html: marked(part.text),
-                            }}
-                            className="prose prose-sm max-w-none"
-                          />
-                        );
-                      }
-                      if ("url" in part && typeof part.url === "string") {
-                        return (
-                          <div className="my-2">
-                            <img
-                              key={idx}
-                              src={part.url}
-                              alt="AI image"
-                              className="rounded-lg max-w-full object-cover shadow-lg"
-                            />
-                          </div>
-                        );
-                      }
-                      return <span key={idx}>[Unsupported part]</span>;
-                    })
-                  ) : (
-                    "[Unsupported content]"
-                  )}
-                </div>
-
-                {m.role === "assistant" && (
-                  <div className="flex space-x-2 mt-2">
-                    <button className="text-gray-400 hover:text-white p-1 rounded transition-colors">
-                      <Icon icon="solar:pen-bold" width="16" height="16" />
-                    </button>
-                    <button className="text-gray-400 hover:text-white p-1 rounded transition-colors">
-                      <Icon icon="solar:like-bold" width="16" height="16" />
-                    </button>
-                    <button className="text-gray-400 hover:text-white p-1 rounded transition-colors">
-                      <Icon icon="solar:dislike-bold" width="16" height="16" />
-                    </button>
-                  </div>
-                )}
-              </div>
+          {messages.length === 0 ? (
+            <div className="flex flex-col items-start justify-start h-full px-4 pt-24">
+              <h1 className="text-4xl font-medium bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Welcome, Yash
+              </h1>
+              <p className="text-lg mt-3 bg-gradient-to-r from-gray-300 to-gray-400 bg-clip-text text-transparent">
+                how can I help you?
+              </p>
             </div>
-          ))}
+          ) : (
+            messages.map((m, i) => (
+              <div key={i} className="flex items-start justify-start">
+                <div className="flex-shrink-0 mr-3">
+                  <div
+                    className={`${m.role === "user" ? "bg-[#2658DD] rounded-lg" : "bg-white rounded-lg" } flex items-center justify-center w-8 h-8`}
+                  >
+                    {m.role === "user" ? (
+                      <img
+                        src="/icons/user-icon.png"
+                        alt="User"
+                        className="object-contain w- h-6"
+                      />
+                    ) : (
+                      <Icon
+                        icon="solar:key-minimalistic-square-3-bold-duotone"
+                        width="32"
+                        height="32"
+                        className="text-[#282c3a]"
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start">
+                  <div className="flex items-center mb-1">
+                    <span className="text-xs text-gray-400 mr-2">
+                      {m.role === "user" ? "You" : "Turnkey AI"}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {getCurrentTime()}
+                    </span>
+                  </div>
+
+                  <div
+                    className={
+                      m.role === "user"
+                        ? "chat-message-user"
+                        : "chat-message-ai"
+                    }
+                  >
+                    {typeof m.content === "string" ? (
+                      <div
+                        dangerouslySetInnerHTML={{ __html: marked(m.content) }}
+                        className="prose prose-sm max-w-none"
+                      />
+                    ) : Array.isArray(m.content) ? (
+                      m.content.map((part, idx) => {
+                        if (typeof part === "string") {
+                          return (
+                            <div
+                              key={idx}
+                              dangerouslySetInnerHTML={{ __html: marked(part) }}
+                              className="prose prose-sm max-w-none"
+                            />
+                          );
+                        }
+                        if ("text" in part && typeof part.text === "string") {
+                          return (
+                            <div
+                              key={idx}
+                              dangerouslySetInnerHTML={{
+                                __html: marked(part.text),
+                              }}
+                              className="prose prose-sm max-w-none"
+                            />
+                          );
+                        }
+                        if ("url" in part && typeof part.url === "string") {
+                          return (
+                            <div className="my-2">
+                              <img
+                                key={idx}
+                                src={part.url}
+                                alt="AI image"
+                                className="rounded-lg max-w-full object-cover shadow-lg"
+                              />
+                            </div>
+                          );
+                        }
+                        return <span key={idx}>[Unsupported part]</span>;
+                      })
+                    ) : (
+                      "[Unsupported content]"
+                    )}
+                  </div>
+
+                  {m.role === "assistant" && (
+                    <div className="flex space-x-2 mt-2">
+                      <button className="text-gray-400 hover:text-white p-1 rounded transition-colors">
+                        <Icon icon="solar:pen-bold" width="16" height="16" />
+                      </button>
+                      <button className="text-gray-400 hover:text-white p-1 rounded transition-colors">
+                        <Icon icon="solar:like-bold" width="16" height="16" />
+                      </button>
+                      <button className="text-gray-400 hover:text-white p-1 rounded transition-colors">
+                        <Icon
+                          icon="solar:dislike-bold"
+                          width="16"
+                          height="16"
+                        />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
           <div ref={bottomRef} />
         </div>
 
@@ -358,7 +373,11 @@ export const AIChat: React.FC<AIChatProps> = ({ selectedAccount, signer }) => {
                 placeholder="Ask me anything..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), handleSend())}
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  !e.shiftKey &&
+                  (e.preventDefault(), handleSend())
+                }
                 disabled={isLoading}
               />
             </div>
@@ -367,15 +386,17 @@ export const AIChat: React.FC<AIChatProps> = ({ selectedAccount, signer }) => {
             <div className="flex justify-between items-center px-4 py-2">
               {/* Left side icons */}
               <div className="flex items-center gap-3">
-                <button 
+                <button
                   onClick={() => setGodMode(!godMode)}
                   className="text-white opacity-70 hover:opacity-100 p-1 rounded transition-colors flex items-center gap-2"
                 >
                   <div className="relative flex items-center">
-                    <div className={`w-8 h-4 rounded-full transition-colors ${godMode ? 'bg-[#94959D]/70' : 'bg-gray-600/40'}`}>
-                      <div 
-                        className={`absolute w-3 h-3 rounded-full bg-white shadow-md transform transition-transform ${godMode ? 'translate-x-4' : 'translate-x-1'}`} 
-                        style={{top: '2px'}}
+                    <div
+                      className={`w-8 h-4 rounded-full transition-colors ${godMode ? "bg-[#94959D]/70" : "bg-gray-600/40"}`}
+                    >
+                      <div
+                        className={`absolute w-3 h-3 rounded-full bg-white shadow-md transform transition-transform ${godMode ? "translate-x-4" : "translate-x-1"}`}
+                        style={{ top: "2px" }}
                       />
                     </div>
                   </div>
@@ -420,7 +441,11 @@ export const AIChat: React.FC<AIChatProps> = ({ selectedAccount, signer }) => {
                     ></path>
                   </svg>
                 ) : (
-                  <Icon icon="solar:alt-arrow-right-bold-duotone" width="24" height="24" />
+                  <Icon
+                    icon="solar:alt-arrow-right-bold-duotone"
+                    width="24"
+                    height="24"
+                  />
                 )}
               </button>
             </div>
@@ -429,6 +454,20 @@ export const AIChat: React.FC<AIChatProps> = ({ selectedAccount, signer }) => {
             Powered by Solana Agent Kit 2.0
           </div>
         </div>
+      </div>
+
+      {/* Bottom-left page links */}
+      <div className="fixed bottom-12 left-12 flex items-center gap-4 text-white opacity-60 hover:opacity-90 transition-opacity">
+        <a
+          href="https://solana-agent-kit.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1"
+        >
+          <Icon icon="solar:notebook-square-bold" width="24" height="24" />
+          <span>Docs</span>
+          <Icon icon="solar:arrow-right-up-bold-duotone" width="16" height="16" />
+        </a>
       </div>
     </div>
   );
