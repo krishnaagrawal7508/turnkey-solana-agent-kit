@@ -3,7 +3,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Auth, useTurnkey, TurnkeyProvider } from "@turnkey/sdk-react";
-import "./index.css";
 import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar";
 import { Toaster, toast } from "sonner";
@@ -85,24 +84,28 @@ export default function AuthPage() {
       apiBaseUrl: process.env.NEXT_PUBLIC_BASE_URL as string,
       defaultOrganizationId: process.env.NEXT_PUBLIC_ORGANIZATION_ID as string,
     }}>
-      <main className="main">
+      <div className="bg-[var(--background)] min-h-screen">
         <Navbar />
-        <div className="authComponent">
-          <Auth
-            authConfig={authConfig}
-            configOrder={configOrder}
-            onAuthSuccess={handleAuthSuccess}
-            onError={(errorMessage: string) => toast.error(errorMessage)}
-            customSmsMessage={"Your Turnkey Demo OTP is {{.OtpCode}}"}
-          />
+        <div className="pt-20 flex justify-center items-center flex-1">
+          <div className="bg-[var(--card-bg)] p-8 rounded-xl shadow-xl">
+            <h1 className="text-white text-2xl font-bold mb-6 text-center">Welcome to Sense AI</h1>
+            <Auth
+              authConfig={authConfig}
+              configOrder={configOrder}
+              onAuthSuccess={handleAuthSuccess}
+              onError={(errorMessage: string) => toast.error(errorMessage)}
+              customSmsMessage={"Your Sense AI Demo OTP is {{.OtpCode}}"}
+            />
+          </div>
         </div>
-        <div>
-          <Toaster
-            position="bottom-right"
-            toastOptions={{ className: "sonner-toaster", duration: 2500 }}
-          />
-        </div>
-      </main>
+        <Toaster
+          position="bottom-right"
+          toastOptions={{ 
+            className: "bg-[var(--card-bg)] text-white border border-gray-700 shadow-lg", 
+            duration: 2500 
+          }}
+        />
+      </div>
     </TurnkeyProvider>
   );
 }

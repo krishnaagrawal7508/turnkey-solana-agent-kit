@@ -8,7 +8,6 @@ import { AIChat } from "../components/Chat"
 
 import { server } from "@turnkey/sdk-server";
 import { useEffect, useState } from "react";
-import "./dashboard.css";
 import {
   CircularProgress,
 } from "@mui/material";
@@ -18,10 +17,7 @@ import { Toaster, toast } from "sonner";
 import { TurnkeyBrowserClient, User } from "@turnkey/sdk-browser";
 import { Turnkey } from "@turnkey/sdk-server";
 import { TurnkeySigner } from "@turnkey/solana";
-import dotenv from "dotenv";
 import { createNewSolanaWallet } from "../utils/createSolanaWallet";
-
-dotenv.config();
 
 export default function Dashboard() {
   const router = useRouter();
@@ -87,34 +83,31 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <main className="main">
+      <div className="h-screen w-screen flex justify-center items-center bg-[var(--background)]">
         <Navbar />
-        <div className="loaderOverlay">
-          <CircularProgress
-            size={80}
-            thickness={1}
-            className="circularProgress"
-          />
-        </div>
-      </main>
+        <CircularProgress
+          size={60}
+          thickness={4}
+          className="text-blue-500"
+        />
+      </div>
     );
   }
 
   return (
-    <main className="main">
+    <div className="bg-[var(--background)] min-h-screen">
       <Navbar />
-      <link rel="preload" href="/eth-hover.svg" as="image" />
-      <link rel="preload" href="/solana-hover.svg" as="image" />
       <AIChat
         selectedAccount={selectedAccount}
         signer={signer}
       />
-      <div>
-        <Toaster
-          position="bottom-right"
-          toastOptions={{ className: "sonner-toaster", duration: 2500 }}
-        />
-      </div>
-    </main>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{ 
+          className: "bg-[var(--card-bg)] text-white border border-gray-700 shadow-lg", 
+          duration: 2500 
+        }}
+      />
+    </div>
   );
 }

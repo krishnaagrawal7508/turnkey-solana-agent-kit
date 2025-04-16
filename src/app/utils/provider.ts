@@ -4,9 +4,6 @@ import {
     wrapLanguageModel,
 } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const openai = createOpenAI({
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
